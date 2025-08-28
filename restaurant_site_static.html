@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Restaurant — Breakfast · Grill · Indian</title>
+  <style>
+    :root{--brand:#111827;--accent:#d97706;--muted:#6b7280}
+    body{font-family:Inter,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0;color:var(--brand);background:#fff}
+    header{background:#111827;color:#fff;padding:28px 20px}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+    nav{display:flex;align-items:center;gap:12px;margin-top:14px}
+    nav a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.06)}
+
+    /* Hero */
+    .hero{display:flex;gap:20px;align-items:center;padding:40px 0}
+    .hero .left{flex:1}
+    .hero .actions{display:flex;gap:10px;margin-top:16px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-ghost{background:transparent;border:1px solid #e5e7eb;color:var(--brand)}
+
+    /* Menu */
+    .tabs{display:flex;gap:8px;margin:16px 0}
+    .tab{padding:8px 12px;border-radius:999px;border:1px solid #e5e7eb;cursor:pointer}
+    .tab.active{background:var(--brand);color:#fff}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .menu-item{border:1px solid #f3f4f6;padding:12px;border-radius:12px;background:#fff}
+    .menu-item h4{margin:0 0 6px}
+    .price{float:right;font-weight:700;color:var(--brand)}
+    .muted{color:var(--muted)}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+    .gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px}
+
+    /* Contact */
+    .contact-row{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    form input, form textarea, form select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6e7eb;margin-bottom:8px}
+    form button{padding:10px 14px;border-radius:10px;background:var(--brand);color:#fff;border:0}
+
+    /* Admin drawer */
+    .admin-drawer{position:fixed;right:20px;top:20px;width:420px;max-height:80vh;overflow:auto;background:#fff;border:1px solid #e6e7eb;padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.08)}
+    .small{font-size:13px;color:var(--muted)}
+    .actions-row{display:flex;gap:8px}
+
+    footer{border-top:1px solid #f3f4f6;padding:24px;color:var(--muted);margin-top:40px}
+
+    /* tiny responsive */
+    @media (max-width:800px){.contact-row{grid-template-columns:1fr}.hero{flex-direction:column}.admin-drawer{width:94%;left:3%;right:3%;top:auto;bottom:20px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <h1 id="site-name">Your Restaurant</h1>
+          <p class="lead" id="site-tagline">Breakfast • Grill • Indian</p>
+        </div>
+        <div style="text-align:right">
+          <div class="small">Call us</div>
+          <a id="phone-link" href="tel:+441234567890" style="color:#fff;font-weight:700;text-decoration:none">+44 1234 567890</a>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#menus">Menus</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+        <a id="admin-open" href="#" style="margin-left:auto;background:#ef4444">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="left">
+        <h2>Welcome — great food, every day</h2>
+        <p class="muted">Simple, tasty breakfast, smoky grills and classic Indian dishes. Open daily — call or message to book.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#menus">View Menus</a>
+          <a class="btn btn-ghost" id="call-us" href="#">Call us</a>
+          <a class="btn btn-ghost" href="#contact">Message</a>
+        </div>
+      </div>
+      <div style="width:360px">
+        <img id="hero-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop" alt="hero" style="width:100%;height:220px;object-fit:cover;border-radius:12px;border:1px solid #eee"/>
+      </div>
+    </section>
+
+    <!-- Menus -->
+    <section id="menus">
+      <h3>Our Menus</h3>
+      <div class="tabs" id="menu-tabs"></div>
+      <div class="menu-grid" id="menu-grid"></div>
+      <p class="small muted" style="margin-top:8px">All prices include VAT. Please inform us of any allergies.</p>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" style="margin-top:28px">
+      <h3>Gallery</h3>
+      <div class="gallery" id="gallery-grid"></div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" style="margin-top:28px">
+      <h3>Contact Us</h3>
+      <div class="contact-row">
+        <div>
+          <p class="small">Phone: <a id="phone-inline" href="tel:+441234567890">+44 1234 567890</a></p>
+          <p class="small">Address: <span id="addr">123 High Street</span></p>
+          <p class="small">Opening hours:</p>
+          <ul id="hours-list" class="small"></ul>
+
+          <h4 style="margin-top:14px">Send a message</h4>
+          <form id="contact-form">
+            <input name="name" placeholder="Your name" required />
+            <input name="email" type="email" placeholder="Email" required />
+            <input name="subject" placeholder="Subject" />
+            <textarea name="message" rows="5" placeholder="Message" required></textarea>
+            <div style="display:flex;gap:10px">
+              <button type="submit">Send (opens email)</button>
+              <button type="button" id="call-button" class="btn-ghost">Call instead</button>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          <h4>Map</h4>
+          <div style="width:100%;height:220px;background:#f3f4f6;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted)">Map placeholder</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div>© <span id="year"></span> <span id="site-name-footer">Your Restaurant</span>. All rights reserved.</div>
+        <div class="small">Made with care · Edit via Admin</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Admin drawer (local-only simple manager storing data in localStorage) -->
+  <div id="admin" class="admin-drawer" style="display:none">
+    <h4>Admin — Manage site</h4>
+    <div id="admin-login">
+      <p class="small">Enter password to open admin. (default: <strong>admin123</strong>)</p>
+      <input id="admin-pwd" placeholder="password" type="password" />
+      <div style="margin-top:8px">
+        <button id="admin-login-btn">Open</button>
+        <button id="admin-close-btn" style="margin-left:8px">Close</button>
+      </div>
+    </div>
+
+    <div id="admin-panel" style="display:none;margin-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div class="small">Logged in</div>
+        <div>
+          <button id="admin-logout">Logout</button>
+        </div>
+      </div>
+
+      <hr style="margin:12px 0" />
+
+      <h5>Site info</h5>
+      <input id="site-name-input" placeholder="Site name" />
+      <input id="site-tagline-input" placeholder="Tagline" />
+      <input id="site-phone-input" placeholder="Phone" />
+      <input id="site-email-input" placeholder="Email" />
+      <input id="site-addr-input" placeholder="Address" />
+      <textarea id="site-hrs-input" placeholder="Hours, one per line e.g. Mon–Fri: 8:00–22:00" rows="3"></textarea>
+      <button id="save-site">Save site info</button>
+
+      <hr style="margin:12px 0" />
+
+      <h5>Menus</h5>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <select id="menu-category">
+          <option>Breakfast</option>
+          <option>Grill</option>
+          <option>Indian</option>
+        </select>
+        <input id="item-name" placeholder="Item name" />
+        <input id="item-desc" placeholder="Short desc" />
+        <input id="item-price" placeholder="Price" />
+        <button id="add-item">Add</button>
+      </div>
+
+      <div id="menus-admin-list" style="margin-top:6px"></div>
+
+      <hr style="margin:12px 0" />
+
+      <h5>Gallery</h5>
+      <input id="gallery-url" placeholder="Image URL" />
+      <button id="add-gallery">Add</button>
+      <div id="gallery-admin-list" style="margin-top:8px"></div>
+
+      <hr style="margin:12px 0" />
+      <div class="small muted">Data is saved to your browser (localStorage). To use on a server / team, we can connect this to a real backend or a headless CMS. Ask me to wire SendGrid or a simple Node.js backend.</div>
+    </div>
+  </div>
+
+  <script>
+    /* ---------- Default data ---------- */
+    const DEFAULT = {
+      site: {
+        name: 'Your Restaurant',
+        tagline: 'Breakfast • Grill • Indian',
+        phone: '+44 1234 567890',
+        email: 'hello@example.com',
+        address: '123 High Street, London',
+        hours: ['Mon–Thu: 08:00–22:00','Fri: 08:00–23:00','Sat: 09:00–23:00','Sun: 09:00–21:00'],
+        gallery: [
+          'https://images.unsplash.com/photo-1541542684-4a9c8e7d1327?q=80&w=800&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1516684669134-de6f26bebaef?q=80&w=800&auto=format&fit=crop'
+        ]
+      },
+      menus: {
+        Breakfast: [
+          {id: 'b1', name: 'Full English', desc: 'Eggs, bacon, sausage, beans, toast', price: 12.5},
+          {id: 'b2', name: 'Pancakes & Berries', desc: 'Fluffy stack, maple syrup', price: 8.5}
+        ],
+        Grill: [
+          {id: 'g1', name: 'Charcoal Ribeye 250g', desc: 'Grass-fed ribeye with house butter', price: 24},
+          {id: 'g2', name: 'Smash Burger', desc: 'Double patty, cheese, fries', price: 13}
+        ],
+        Indian: [
+          {id: 'i1', name: 'Butter Chicken', desc: 'Creamy tomato, naan', price: 14},
+          {id: 'i2', name: 'Vegetable Biryani', desc: 'Aromatic rice & raita', price: 12}
+        ]
+      }
+    };
+
+    /* ---------- Storage helpers ---------- */
+    function loadState(){
+      try{ const raw = localStorage.getItem('restaurant_state'); if(raw) return JSON.parse(raw); }catch(e){}
+      return DEFAULT;
+    }
+    function saveState(state){ localStorage.setItem('restaurant_state', JSON.stringify(state)); }
+
+    let STATE = loadState();
+
+    /* ---------- Rendering ---------- */
+    const menuTabsEl = document.getElementById('menu-tabs');
+    const menuGridEl = document.getElementById('menu-grid');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const yearEl = document.getElementById('year');
+
+    function renderSiteInfo(){
+      document.getElementById('site-name').textContent = STATE.site.name;
+      document.getElementById('site-tagline').textContent = STATE.site.tagline;
+      document.getElementById('phone-link').textContent = STATE.site.phone;
+      document.getElementById('phone-link').href = 'tel:'+STATE.site.phone.replace(/\s/g,'');
+      document.getElementById('phone-inline').textContent = STATE.site.phone; document.getElementById('phone-inline').href = 'tel:'+STATE.site.phone.replace(/\s/g,'');
+      document.getElementById('addr').textContent = STATE.site.address;
+      document.getElementById('site-name-footer').textContent = STATE.site.name;
+      yearEl.textContent = new Date().getFullYear();
+      const hrsList = document.getElementById('hours-list'); hrsList.innerHTML = '';
+      STATE.site.hours.forEach(h => { const li = document.createElement('li'); li.textContent = h; hrsList.appendChild(li); });
+      // gallery
+      galleryGrid.innerHTML = '';
+      STATE.site.gallery.forEach(url => { const img = document.createElement('img'); img.src = url; galleryGrid.appendChild(img); });
+    }
+
+    function renderMenus(activeTab){
+      const cats = Object.keys(STATE.menus);
+      menuTabsEl.innerHTML = '';
+      cats.forEach(cat => {
+        const b = document.createElement('button'); b.className='tab'+(cat===activeTab?' active':''); b.textContent=cat; b.onclick=()=>renderMenus(cat);
+        menuTabsEl.appendChild(b);
+      });
+      // items
+      menuGridEl.innerHTML = '';
+      (STATE.menus[activeTab]||[]).forEach(it=>{
+        const d = document.createElement('div'); d.className='menu-item';
+        d.innerHTML = `<div><h4>${escapeHtml(it.name)}<span class='price'>${formatGBP(it.price)}</span></h4><p class='muted'>${escapeHtml(it.desc||'')}</p></div>`;
+        menuGridEl.appendChild(d);
+      });
+    }
+
+    function renderAdminLists(){
+      const list = document.getElementById('menus-admin-list'); list.innerHTML='';
+      Object.keys(STATE.menus).forEach(cat=>{
+        const h = document.createElement('div'); h.innerHTML = `<h6 style="margin:8px 0">${cat}</h6>`;
+        list.appendChild(h);
+        const ul = document.createElement('div'); ul.style.marginBottom='8px';
+        (STATE.menus[cat]||[]).forEach(it=>{
+          const row = document.createElement('div'); row.style.display='flex'; row.style.justifyContent='space-between'; row.style.alignItems='center'; row.style.gap='8px'; row.style.marginBottom='6px';
+          row.innerHTML = `<div><strong>${escapeHtml(it.name)}</strong><div class='small muted'>${escapeHtml(it.desc||'')}</div></div><div style='text-align:right'><div style='font-weight:700'>${formatGBP(it.price)}</div><div class='actions-row' style='margin-top:6px'><button data-cat='${cat}' data-id='${it.id}' class='edit-item small'>Edit</button><button data-cat='${cat}' data-id='${it.id}' class='del-item small'>Delete</button></div></div>`;
+          ul.appendChild(row);
+        });
+        list.appendChild(ul);
+      });
+
+      // gallery admin
+      const g = document.getElementById('gallery-admin-list'); g.innerHTML='';
+      STATE.site.gallery.forEach((url,idx)=>{
+        const row = document.createElement('div'); row.style.display='flex'; row.style.justifyContent='space-between'; row.style.alignItems='center'; row.style.gap='8px'; row.style.marginBottom='6px';
+        row.innerHTML = `<div style='display:flex;gap:8px;align-items:center'><img src='${url}' style='width:48px;height:34px;object-fit:cover;border-radius:6px;border:1px solid #eee'/><div class='small' style='max-width:200px;overflow:hidden;text-overflow:ellipsis'>${escapeHtml(url)}</div></div><div><button data-idx='${idx}' class='del-g'>Delete</button></div>`;
+        g.appendChild(row);
+      });
+
+      // bind events
+      document.querySelectorAll('.del-item').forEach(btn=>btn.onclick=onDeleteItem);
+      document.querySelectorAll('.edit-item').forEach(btn=>btn.onclick=onEditItem);
+      document.querySelectorAll('.del-g').forEach(btn=>btn.onclick=onDelGallery);
+    }
+
+    /* ---------- Utilities ---------- */
+    function formatGBP(n){ return typeof n==='number' ? '£'+(Math.round(n*100)/100).toFixed(2) : '£'+String(n); }
+    function id(){ return 'id'+Math.random().toString(36).slice(2,9); }
+    function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* ---------- Admin actions ---------- */
+    document.getElementById('add-item').onclick = ()=>{
+      const cat = document.getElementById('menu-category').value;
+      const name = document.getElementById('item-name').value.trim();
+      const desc = document.getElementById('item-desc').value.trim();
+      const price = parseFloat(document.getElementById('item-price').value);
+      if(!name||isNaN(price)) return alert('Name and price required');
+      const item = { id: id(), name, desc, price };
+      STATE.menus[cat] = STATE.menus[cat]||[]; STATE.menus[cat].push(item); saveState(STATE); renderMenus(cat); renderAdminLists();
+      document.getElementById('item-name').value=''; document.getElementById('item-desc').value=''; document.getElementById('item-price').value='';
+    };
+
+    function onDeleteItem(e){ const cat=e.target.dataset.cat,id=e.target.dataset.id; if(!confirm('Delete item?'))return; STATE.menus[cat]=STATE.menus[cat].filter(x=>x.id!==id); saveState(STATE); renderMenus(cat); renderAdminLists(); }
+
+    function onEditItem(e){ const cat=e.target.dataset.cat,id=e.target.dataset.id; const arr=STATE.menus[cat]; const it=arr.find(x=>x.id===id); if(!it) return; const n=prompt('Name',it.name); if(n===null) return; const d=prompt('Description',it.desc||''); if(d===null) return; const p=prompt('Price',it.price); if(p===null) return; it.name=n; it.desc=d; it.price=parseFloat(p)||it.price; saveState(STATE); renderMenus(cat); renderAdminLists(); }
+
+    document.getElementById('add-gallery').onclick = ()=>{
+      const url = document.getElementById('gallery-url').value.trim(); if(!url) return;
+      STATE.site.gallery.push(url); saveState(STATE); document.getElementById('gallery-url').value=''; renderSiteInfo(); renderAdminLists();
+    }
+    function onDelGallery(e){ const idx=parseInt(e.target.dataset.idx); if(!confirm('Delete image?')) return; STATE.site.gallery.splice(idx,1); saveState(STATE); renderSiteInfo(); renderAdminLists(); }
+
+    document.getElementById('save-site').onclick = ()=>{
+      STATE.site.name = document.getElementById('site-name-input').value.trim()||STATE.site.name;
+      STATE.site.tagline = document.getElementById('site-tagline-input').value.trim()||STATE.site.tagline;
+      STATE.site.phone = document.getElementById('site-phone-input').value.trim()||STATE.site.phone;
+      STATE.site.email = document.getElementById('site-email-input').value.trim()||STATE.site.email;
+      STATE.site.address = document.getElementById('site-addr-input').value.trim()||STATE.site.address;
+      STATE.site.hours = document.getElementById('site-hrs-input').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      saveState(STATE); renderSiteInfo(); alert('Saved');
+    }
+
+    /* ---------- Admin auth (local-only) ---------- */
+    const ADMIN_PASSWORD = 'admin123'; // change in code for production
+    document.getElementById('admin-open').onclick = (e)=>{ e.preventDefault(); document.getElementById('admin').style.display='block'; };
+    document.getElementById('admin-close').onclick = ()=>{ document.getElementById('admin').style.display='none'; };
+    document.getElementById('admin-login-btn').onclick = ()=>{
+      const v = document.getElementById('admin-pwd').value;
+      if(v===ADMIN_PASSWORD){ document.getElementById('admin-login').style.display='none'; document.getElementById('admin-panel').style.display='block';
+        // populate site inputs
+        document.getElementById('site-name-input').value = STATE.site.name;
+        document.getElementById('site-tagline-input').value = STATE.site.tagline;
+        document.getElementById('site-phone-input').value = STATE.site.phone;
+        document.getElementById('site-email-input').value = STATE.site.email;
+        document.getElementById('site-addr-input').value = STATE.site.address;
+        document.getElementById('site-hrs-input').value = STATE.site.hours.join('\n');
+        renderAdminLists();
+      } else alert('Wrong password');
+    };
+    document.getElementById('admin-logout').onclick = ()=>{ document.getElementById('admin-login').style.display='block'; document.getElementById('admin-panel').style.display='none'; document.getElementById('admin-pwd').value=''; };
+
+    /* ---------- Contact form behaviour ---------- */
+    document.getElementById('contact-form').onsubmit = (e)=>{
+      e.preventDefault(); const fd=new FormData(e.target); const name=fd.get('name'); const email=fd.get('email'); const subject=fd.get('subject')||'Website enquiry'; const message=fd.get('message');
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:${STATE.site.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    };
+    document.getElementById('call-button').onclick = ()=>{ window.location.href = 'tel:'+STATE.site.phone.replace(/\s/g,''); };
+    document.getElementById('call-us').onclick = (e)=>{ e.preventDefault(); window.location.href = 'tel:'+STATE.site.phone.replace(/\s/g,''); };
+
+    /* ---------- Delete everything (for testing) ---------- */
+    // function resetState(){ localStorage.removeItem('restaurant_state'); STATE = loadState(); renderAll(); }
+
+    /* ---------- Init ---------- */
+    function renderAll(){ renderSiteInfo(); renderMenus(Object.keys(STATE.menus)[0]); }
+    renderAll();
+  </script>
+</body>
+</html>
